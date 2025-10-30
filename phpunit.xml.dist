@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+        bootstrap="vendor/autoload.php"
+        colors="true"
+        executionOrder="random"
+        failOnWarning="true"
+        failOnRisky="true"
+        failOnEmptyTestSuite="true"
+        beStrictAboutOutputDuringTests="true"
+        cacheDirectory=".phpunit.cache"
+>
+    <testsuites>
+        <testsuite name="Scrada Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_KEY" value="base64:TaUN5M30kEy4U+fj7RDG0+ppdVWwI9apTf1a0inKdP0="/>
+    </php>
+</phpunit>
