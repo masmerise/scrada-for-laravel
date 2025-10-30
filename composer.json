@@ -1,0 +1,60 @@
+{
+    "name": "masmerise/scrada-for-laravel",
+    "description": "Laravel framework adapter for the Scrada SDK.",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "scrada"
+    ],
+    "authors": [
+        {
+            "name": "Muhammed Sarı",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/masmerise/scrada-for-laravel",
+    "require": {
+        "php": "~8.5",
+        "illuminate/contracts": "^12.0",
+        "illuminate/support": "^12.0",
+        "masmerise/scrada-php-sdk": "^0.2.0",
+        "saloonphp/laravel-http-sender": "^3.1",
+        "webmozart/assert": "^1.12"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.8.1",
+        "laravel/pint": "^1.26",
+        "orchestra/testbench": "^10.8"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Scrada\\Laravel\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Scrada\\Laravel\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Scrada\\Laravel\\ServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "format": "vendor/bin/pint",
+        "larastan": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "test": "vendor/bin/phpunit",
+        "verify": ["@larastan", "@test"]
+    }
+}
