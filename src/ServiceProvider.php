@@ -6,21 +6,12 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Support\AggregateServiceProvider;
 use InvalidArgumentException;
-use Saloon\Config;
-use Saloon\HttpSender\HttpSender;
 use Scrada\Authentication\Credentials;
 use Scrada\Scrada;
 use Webmozart\Assert\Assert;
 
 final class ServiceProvider extends AggregateServiceProvider
 {
-    public function boot(): void
-    {
-        if (! class_exists('Saloon\Laravel\SaloonServiceProvider')) {
-            Config::$defaultSender = HttpSender::class;
-        }
-    }
-
     public function register(): void
     {
         $this->app->singleton(Scrada::class, $this->createScrada(...));

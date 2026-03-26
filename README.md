@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://www.scrada.be/wp-content/uploads/2023/10/ScradaLogoWebsite.png" alt="Scrada PHP SDK" height="50">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1969px-Laravel.svg.png" alt="PHP" height="50">
+<img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" alt="Laravel" height="50">
 </p>
 
 <p align="center">

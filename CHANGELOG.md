@@ -2,6 +2,11 @@
 
 All notable changes to `scrada-for-laravel` will be documented in this file.
 
+## 1.1.0 - 2026-03-26
+
+- Scrada SDK 1 support
+- Laravel 13 support
+
 ## 1.0.0 - 2026-01-01
 
 - Initial release
