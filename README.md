@@ -28,6 +28,7 @@ After that, define your `scrada` credentials inside the `config/services.php` co
 'scrada' => [
     'api_key' => env('SCRADA_API_KEY'),
     'password' => env('SCRADA_PASSWORD'),
+    'env' => env('SCRADA_ENV', 'production'), // or 'test'
 ],
 ```
 

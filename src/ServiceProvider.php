@@ -2,11 +2,11 @@
 
 namespace Scrada\Laravel;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Support\AggregateServiceProvider;
 use InvalidArgumentException;
-use Scrada\Authentication\Credentials;
 use Scrada\Scrada;
 use Webmozart\Assert\Assert;
 
@@ -19,11 +19,17 @@ final class ServiceProvider extends AggregateServiceProvider
     }
 
     /** @throws InvalidArgumentException */
-    private function createScrada(Application $app): Scrada
+    protected function createScrada(Application $app): Scrada
     {
+        $config = $this->config($app['config']);
+
         /** Authentication */
-        $scrada = $this->credentials($app['config']->get('services.scrada'));
-        $scrada = Scrada::authenticate($scrada);
+        $scrada = Scrada::authenticate($config->credentials());
+
+        /** Environment */
+        if ($config->wantsTestEnv()) {
+            $scrada->useTest();
+        }
 
         /** Rate Limiting */
         $scrada->withStore($app['cache.store']);
@@ -37,19 +43,21 @@ final class ServiceProvider extends AggregateServiceProvider
     }
 
     /** @throws InvalidArgumentException */
-    private function credentials(mixed $config): Credentials
+    private function config(Repository $config): Config
     {
-        Assert::notNull($config, 'The Scrada config is missing.');
-        Assert::isArray($config, 'The Scrada config must be an array.');
-        Assert::keyExists($config, 'api_key', 'The Scrada config is missing the "api_key" key.');
-        Assert::string($config['api_key'], 'The Scrada config is invalid and the "api_key" key must be a string.');
-        Assert::keyExists($config, 'password', 'The Scrada config is missing the "password" key.');
-        Assert::string($config['password'], 'The Scrada config is invalid and the "password" key must be a string.');
+        $scrada = $config->get('services.scrada');
 
-        /** @var array{api_key: string, password: string} $config */
-        return Credentials::present(
-            key: $config['api_key'],
-            password: $config['password'],
+        Assert::notNull($scrada, 'The Scrada config is missing.');
+        Assert::isArray($scrada, 'The Scrada config must be an array.');
+        Assert::keyExists($scrada, 'api_key', 'The Scrada config is missing the "api_key" key.');
+        Assert::string($scrada['api_key'], 'The Scrada config is invalid and the "api_key" key must be a string.');
+        Assert::keyExists($scrada, 'password', 'The Scrada config is missing the "password" key.');
+        Assert::string($scrada['password'], 'The Scrada config is invalid and the "password" key must be a string.');
+
+        return new Config(
+            key: $scrada['api_key'],
+            password: $scrada['password'],
+            env: $scrada['env'] ?? 'production',
         );
     }
 }
