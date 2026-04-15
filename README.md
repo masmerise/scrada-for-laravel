@@ -26,38 +26,46 @@ After that, define your `scrada` credentials inside the `config/services.php` co
 
 ```php
 'scrada' => [
-    'api_key' => env('SCRADA_API_KEY'),
-    'password' => env('SCRADA_PASSWORD'),
-    'env' => env('SCRADA_ENV', 'production'), // or 'test'
+    'default' => env('SCRADA_COMPANY', 'default'),
+    
+    'companies' => [
+        'default' => [
+            'api_key' => env('SCRADA_API_KEY'),
+            'password' => env('SCRADA_PASSWORD'),
+            'env' => env('SCRADA_ENV', 'production'), // or 'test'
+        ],
+    ],
 ],
 ```
 
 ## Usage
 
 ```php
-$company = scrada()->company->get($id);
+// Resolve a Scrada instance for a specific company
+$company = scrada('default')->company->get($id);
 ```
 
 ```php
+// Resolve the manager and use the default company
 $scrada = app('scrada');
 
-$company = $scrada->company->get($id);
+$company = $scrada->company('default')->company->get($id);
 ```
 
 ```php
 use Scrada\Company\Type\Primitive\CompanyId;
-use Scrada\Scrada;
+use Scrada\Laravel\ScradaManager;
 
 final readonly class CompanyController
 {
-    private function __construct(private Scrada $scrada) {}
+    private function __construct(private ScradaManager $scrada) {}
     
-    public function show(string $id): void
+    public function show(string $company, string $id): void
     {
         $id = CompanyId::fromString($id);
     
         return view('company.show', [
-            'company' => $this->scrada->company->get($id),
+            'company' => $this->scrada->company($company)->company->get($id),
         ]);
     }
 }

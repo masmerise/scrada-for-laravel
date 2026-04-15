@@ -2,6 +2,10 @@
 
 All notable changes to `scrada-for-laravel` will be documented in this file.
 
+## 1.3.0 - 2026-04-15
+
+- Multi company support
+
 ## 1.2.0 - 2026-04-13
 
 - `Environment` configuration
